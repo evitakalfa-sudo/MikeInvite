@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Πάρτυ Γενεθλίων Μιχάλη!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pokemon-red: #E3350D;
+    --pokemon-blue: #2A75BB;
+    --pokemon-yellow: #FFCB05;
+    --pokemon-dark-blue: #003A70;
+    --garage-yellow: #FFC107;
+    --garage-blue: #00AEEF;
+    --garage-pink: #E91E63;
+  }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #1a1a2e;
+    overflow-x: hidden;
+    min-height: 100vh;
+    color: #fff;
+  }
+
+  .bg-pattern {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(227,53,13,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(42,117,187,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(255,203,5,0.06) 0%, transparent 50%);
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--pokemon-red) 0%, #c62828 100%);
+    padding: 50px 24px 40px;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 0 0 40px 40px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .pokeball-deco {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px; height: 50px;
+  }
+
+  .pokeball-deco::before {
+    content: '';
+    position: absolute;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #fff 0%, #fff 45%, #333 45%, #333 55%, var(--pokemon-red) 55%);
+    border: 3px solid #333;
+    animation: spin 4s linear infinite;
+  }
+
+  .pokeball-deco::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #333;
+    z-index: 1;
+  }
+
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  .hero-subtitle {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--pokemon-yellow);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 40px;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .hero-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 3px 3px 0 var(--pokemon-dark-blue), -1px -1px 0 var(--pokemon-dark-blue);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .hero-age {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--pokemon-yellow);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .hero-age span {
+    font-size: 3.5rem;
+    display: inline-block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  .pokemon-float {
+    position: absolute;
+    z-index: 2;
+    filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.3));
+  }
+
+  .pokemon-float img { width: 100%; height: auto; }
+
+  .pika-hero {
+    width: 95px;
+    right: -5px;
+    bottom: 10px;
+    animation: pokePop 3s ease-in-out infinite;
+  }
+
+  .bulba-hero {
+    width: 80px;
+    left: -5px;
+    bottom: 20px;
+    animation: pokePop 3s ease-in-out 0.5s infinite;
+  }
+
+  @keyframes pokePop {
+    0%, 100% { transform: scale(1) rotate(-2deg); }
+    50% { transform: scale(1.1) rotate(2deg); }
+  }
+
+  .pokemon-peek {
+    position: fixed;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .pokemon-peek img { width: 100%; height: auto; }
+
+  .peek-left {
+    left: -35px;
+    width: 120px;
+    animation: peekFromLeft 7s ease-in-out infinite;
+  }
+
+  .peek-right {
+    right: -35px;
+    width: 120px;
+    animation: peekFromRight 7s ease-in-out infinite;
+  }
+
+  .peek-1 { top: 28%; }
+  .peek-2 { top: 50%; animation-delay: 2.5s; }
+  .peek-3 { top: 72%; animation-delay: 5s; }
+  .peek-4 { top: 40%; animation-delay: 1.5s; }
+
+  @keyframes peekFromLeft {
+    0%, 100% { transform: translateX(-85px) rotate(-10deg); }
+    18%, 32% { transform: translateX(10px) rotate(5deg); }
+    50% { transform: translateX(-85px) rotate(-10deg); }
+  }
+
+  @keyframes peekFromRight {
+    0%, 100% { transform: translateX(85px) rotate(10deg); }
+    18%, 32% { transform: translateX(-10px) rotate(-5deg); }
+    50% { transform: translateX(85px) rotate(10deg); }
+  }
+
+  .pokemon-surprise {
+    position: fixed;
+    bottom: -140px;
+    z-index: 10;
+    width: 120px;
+    pointer-events: none;
+  }
+
+  .pokemon-surprise img { width: 100%; height: auto; }
+
+  .surprise-1 { left: 5%; animation: surprisePopUp 9s ease-in-out 3s infinite; }
+  .surprise-2 { right: 5%; animation: surprisePopUp 9s ease-in-out 7s infinite; }
+
+  @keyframes surprisePopUp {
+    0%, 100% { transform: translateY(0) scale(1); }
+    12%, 22% { transform: translateY(-200px) scale(1.1) rotate(-3deg); }
+    17% { transform: translateY(-210px) scale(1.05) rotate(3deg); }
+    35% { transform: translateY(0) scale(1); }
+  }
+
+  .section {
+    margin: 20px 16px;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 28px 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pokemon-red), var(--pokemon-yellow), var(--garage-blue));
+  }
+
+  .section-icon { font-size: 2.2rem; margin-bottom: 12px; display: block; }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    color: var(--pokemon-yellow);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section p { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.85); }
+
+  .datetime-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+
+  .dt-card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .dt-card .label { font-size: 0.75rem; color: var(--pokemon-yellow); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; font-weight: 700; }
+  .dt-card .value { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: #fff; }
+  .dt-card .sub { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  .activities-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+
+  .activity-item {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px; padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .activity-icon {
+    font-size: 1.8rem; flex-shrink: 0;
+    width: 46px; height: 46px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,203,5,0.15); border-radius: 12px;
+  }
+
+  .activity-text { font-size: 0.95rem; font-weight: 700; color: #fff; }
+  .activity-text span { display: block; font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* Garage strip with logo */
+  .garage-strip {
+    margin: 20px 16px;
+    background: #fff;
+    border-radius: 24px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid var(--garage-yellow);
+  }
+
+  .garage-strip::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,193,7,0.1);
+  }
+
+  .garage-logo-img {
+    width: 140px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .garage-info {
+    font-size: 0.85rem;
+    color: var(--pokemon-dark-blue);
+    font-weight: 700;
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-section { margin: 24px 16px; display: flex; flex-direction: column; gap: 14px; }
+
+  .cta-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 18px 24px; border-radius: 50px;
+    font-family: 'Fredoka One', cursive; font-size: 1.1rem;
+    text-decoration: none; text-align: center;
+    transition: all 0.3s ease; border: none; cursor: pointer;
+  }
+
+  .cta-btn:active { transform: scale(0.96); }
+
+  .cta-primary {
+    background: linear-gradient(135deg, var(--pokemon-red) 0%, #c62828 100%);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(227,53,13,0.4);
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 6px 20px rgba(227,53,13,0.4); }
+    50% { box-shadow: 0 6px 30px rgba(227,53,13,0.6); }
+  }
+
+  .cta-maps { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); color: #fff; }
+  .cta-phone { background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3); color: #4CAF50; }
+  .cta-icon { font-size: 1.4rem; }
+
+  .parent-info {
+    text-align: center; padding: 16px; margin: 0 16px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px; border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .parent-info p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+  .footer { text-align: center; padding: 30px 24px 50px; }
+  .footer-pokeballs { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+
+  .mini-pokeball {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: linear-gradient(180deg, #fff 0%, #fff 45%, #333 45%, #333 55%, var(--pokemon-red) 55%);
+    border: 2px solid #333; display: inline-block;
+  }
+
+  .footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+  .sparkle {
+    position: fixed; width: 6px; height: 6px;
+    background: var(--pokemon-yellow); border-radius: 50%;
+    pointer-events: none; z-index: 5;
+    animation: sparkleAnim 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkleAnim { 0%, 100% { opacity: 0; transform: scale(0); } 50% { opacity: 1; transform: scale(1); } }
+
+  .sparkle:nth-child(1) { top: 15%; left: 10%; }
+  .sparkle:nth-child(2) { top: 30%; right: 15%; animation-delay: 0.5s; }
+  .sparkle:nth-child(3) { top: 50%; left: 8%; animation-delay: 1s; }
+  .sparkle:nth-child(4) { top: 65%; right: 12%; animation-delay: 1.5s; }
+  .sparkle:nth-child(5) { top: 80%; left: 20%; animation-delay: 0.7s; }
+  .sparkle:nth-child(6) { top: 45%; right: 5%; animation-delay: 1.2s; width: 4px; height: 4px; background: var(--garage-blue); }
+
+  .confetti {
+    position: fixed; width: 8px; height: 8px; top: -10px;
+    z-index: 100; border-radius: 2px;
+    animation: confettiFall 4s ease-in forwards; pointer-events: none;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .pokeball-divider {
+    display: flex; align-items: center; justify-content: center; margin: 8px 16px; gap: 10px;
+  }
+
+  .pokeball-divider::before, .pokeball-divider::after {
+    content: ''; flex: 1; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  }
+
+  .pokeball-divider .mini-pokeball { flex-shrink: 0; }
+
+  @media (min-width: 480px) {
+    .container { padding: 0 20px; }
+    .hero { border-radius: 0 0 50px 50px; padding: 60px 32px 50px; }
+    .hero-name { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sparkle"></div><div class="sparkle"></div><div class="sparkle"></div>
+<div class="sparkle"></div><div class="sparkle"></div><div class="sparkle"></div>
+
+<!-- PEEKING POKEMON FROM SIDES -->
+<div class="pokemon-peek peek-left peek-1"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu"></div>
+<div class="pokemon-peek peek-right peek-2"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="Charmander"></div>
+<div class="pokemon-peek peek-left peek-3"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="Squirtle"></div>
+<div class="pokemon-peek peek-right peek-4"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Bulbasaur"></div>
+
+<!-- SURPRISE POKEMON FROM BOTTOM -->
+<div class="pokemon-surprise surprise-1"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png" alt="Mewtwo"></div>
+<div class="pokemon-surprise surprise-2"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu"></div>
+
+<div class="bg-pattern"></div>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="pokeball-deco"></div>
+    <div class="pokemon-float pika-hero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu"></div>
+    <div class="pokemon-float bulba-hero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Bulbasaur"></div>
+    <p class="hero-subtitle">Πάρτυ Γενεθλίων</p>
+    <h1 class="hero-name">Μιχάλης</h1>
+    <p class="hero-age">γίνεται <span>9</span> ετών!</p>
+  </div>
+
+  <div class="pokeball-divider"><div class="mini-pokeball"></div></div>
+
+  <div class="section reveal">
+    <span class="section-icon">📅</span>
+    <h2 class="section-title">Πότε</h2>
+    <div class="datetime-grid">
+      <div class="dt-card">
+        <div class="label">Ημέρα</div>
+        <div class="value">2 Μαΐου</div>
+        <div class="sub">Σάββατο</div>
+      </div>
+      <div class="dt-card">
+        <div class="label">Ώρα</div>
+        <div class="value">15:30</div>
+        <div class="sub">έως 18:30</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Garage with logo -->
+  <div class="garage-strip reveal">
+    <svg class="garage-logo-img" viewBox="0 0 300 85" xmlns="http://www.w3.org/2000/svg">
+      <!-- Colored dots top-left -->
+      <rect x="2" y="5" width="4" height="14" rx="2" fill="#E91E63"/>
+      <rect x="8" y="5" width="4" height="14" rx="2" fill="#FFC107"/>
+      <rect x="14" y="5" width="4" height="14" rx="2" fill="#E91E63"/>
+      <rect x="20" y="5" width="4" height="14" rx="2" fill="#2A75BB"/>
+      <!-- EDUHUB -->
+      <text x="80" y="18" font-family="'Arial Black',Impact,sans-serif" font-size="13" font-weight="900" fill="#555" letter-spacing="4">EDUHUB</text>
+      <!-- Decorative connector line top -->
+      <line x1="28" y1="12" x2="78" y2="12" stroke="#888" stroke-width="1.5"/>
+      <circle cx="175" cy="12" r="4" fill="#FFC107" stroke="#888" stroke-width="1"/>
+      <line x1="179" y1="12" x2="210" y2="12" stroke="#888" stroke-width="1.5"/>
+      <!-- G -->
+      <text x="5" y="68" font-family="'Arial Black',Impact,sans-serif" font-size="52" font-weight="900" fill="#555">G</text>
+      <!-- A - blue -->
+      <text x="50" y="68" font-family="'Arial Black',Impact,sans-serif" font-size="52" font-weight="900" fill="#2A75BB">A</text>
+      <!-- R - pink -->
+      <text x="97" y="68" font-family="'Arial Black',Impact,sans-serif" font-size="52" font-weight="900" fill="#E91E63">R</text>
+      <!-- A - yellow -->
+      <text x="140" y="68" font-family="'Arial Black',Impact,sans-serif" font-size="52" font-weight="900" fill="#FFC107">A</text>
+      <!-- G -->
+      <text x="186" y="68" font-family="'Arial Black',Impact,sans-serif" font-size="52" font-weight="900" fill="#555">G</text>
+      <!-- E -->
+      <text x="233" y="68" font-family="'Arial Black',Impact,sans-serif" font-size="52" font-weight="900" fill="#555">E</text>
+      <!-- Decorative elements -->
+      <circle cx="270" cy="30" r="5" fill="#FFC107"/>
+      <line x1="270" y1="35" x2="270" y2="60" stroke="#888" stroke-width="2"/>
+      <circle cx="270" cy="65" r="5" fill="#E91E63"/>
+      <!-- Small circuit lines -->
+      <line x1="275" y1="30" x2="295" y2="30" stroke="#888" stroke-width="1.5"/>
+      <line x1="295" y1="30" x2="295" y2="65" stroke="#888" stroke-width="1.5"/>
+      <circle cx="295" cy="65" r="3" fill="#2A75BB"/>
+    </svg>
+    <div class="garage-info">
+      Λεωφ. Καποδιστρίου 8<br>
+      Φιλοθέη, 151 23
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <span class="section-icon">🎮</span>
+    <h2 class="section-title">Τι θα κάνουμε</h2>
+    <div class="activities-list">
+      <div class="activity-item">
+        <div class="activity-icon">🧱</div>
+        <div class="activity-text">Κατασκευές με LEGO<span>Φτιάξε ό,τι φανταστείς!</span></div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">💻</div>
+        <div class="activity-text">Προγραμματισμός<span>Γίνε Coding Master!</span></div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">✨</div>
+        <div class="activity-text">Μαγικό Χαλί<span>Διαδραστικό παιχνίδι!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pokeball-divider"><div class="mini-pokeball"></div></div>
+
+  <div class="parent-info reveal">
+    <p>Οι γονείς μπορούν να μείνουν στον χώρο ή να αφήσουν τα παιδιά.<br>
+    Οι δραστηριότητες είναι για παιδιά <strong style="color:var(--pokemon-yellow);">7 ετών και άνω</strong>.</p>
+  </div>
+
+  <div class="cta-section reveal">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSftfa_LhdJ2Fo9tusIvEyrbcehLzUWIR2PQt-1Fa5ZXoOAQ7w/viewform?usp=sharing&ouid=105428675154143979007" target="_blank" class="cta-btn cta-primary">
+      <span class="cta-icon">⚡</span>
+      Δήλωσε Συμμετοχή!
+    </a>
+    <a href="tel:6955449972" class="cta-btn cta-phone">
+      <span class="cta-icon">📞</span>
+      Εβίτα (μαμά) — 695 544 9972
+    </a>
+    <a href="https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg8MgYIARBFGDsyBggCEEUYOzIGCAMQRRg5MgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAuGIAEMgcIBxAAGIAE0gEIMjI2N2owajeoAgCwAgA&um=1&ie=UTF-8&fb=1&gl=gr&sa=X&geocode=KQMwOnmBmaEUMdqe8c8IFOF5&daddr=Leof.+Kapodistriou+8,+Filothei+151+23" target="_blank" class="cta-btn cta-maps">
+      <span class="cta-icon">📍</span>
+      Οδηγίες στο Google Maps
+    </a>
+  </div>
+
+  <div class="footer">
+    <div class="footer-pokeballs">
+      <div class="mini-pokeball"></div><div class="mini-pokeball"></div><div class="mini-pokeball"></div>
+    </div>
+    <p>Σε περιμένουμε, trainer! 🎉</p>
+  </div>
+
+</div>
+
+<script>
+  function createConfetti() {
+    const colors = ['#E3350D', '#FFCB05', '#2A75BB', '#4CAF50', '#E91E63', '#FF9800'];
+    for (let i = 0; i < 40; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDelay = Math.random() * 2 + 's';
+      c.style.animationDuration = (3 + Math.random() * 3) + 's';
+      c.style.width = (6 + Math.random() * 6) + 'px';
+      c.style.height = (6 + Math.random() * 6) + 'px';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 6000);
+    }
+  }
+
+  function revealOnScroll() {
+    document.querySelectorAll('.reveal').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('visible');
+    });
+  }
+
+  window.addEventListener('load', () => { createConfetti(); revealOnScroll(); setTimeout(revealOnScroll, 100); });
+  window.addEventListener('scroll', revealOnScroll);
+</script>
+
+</body>
+</html>
